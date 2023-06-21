@@ -27,7 +27,7 @@ const TodoApp = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text>Create Todo:</Text>
       <TextInput
         style={{ borderWidth: 1, padding: 5, marginBottom: 10 }}
@@ -66,7 +66,7 @@ const TodoApp = () => {
         )}
         keyExtractor={(item) => item.id.toString()}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

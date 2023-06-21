@@ -38,7 +38,7 @@ const App = () => {
           return null;
       }
   return (
-      <Todo />
+      <Todo/>
   );
 };
 
