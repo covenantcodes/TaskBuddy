@@ -8,7 +8,7 @@ const TodoApp = () => {
 
   const addTodo = () => {
     if (todoText.trim() !== '') {
-      const newTodo = { id: Date.now(), text: todoText, status: 'pending' };
+      const newTodo = { id: Date.now() , text: todoText, status: 'pending' };
       setTodos([...todos, newTodo]);
       setTodoText('');
     }
@@ -36,6 +36,7 @@ const TodoApp = () => {
       />
       <Button title="Add Todo" onPress={addTodo} />
       <Text>All Todos:</Text>
+
       <FlatList
         data={todos}
         renderItem={({ item }) => (
@@ -66,6 +67,7 @@ const TodoApp = () => {
         )}
         keyExtractor={(item) => item.id.toString()}
       />
+      
     </View>
   );
 };

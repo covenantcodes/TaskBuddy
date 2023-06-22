@@ -3,14 +3,17 @@ import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Image, TextInput, 
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import TodoCard from './TodoCard';
 
-const GlassmorphismTextInput = ({ placeholder }) => {
+const GlassmorphismTextInput = ({ placeholder, value, onChangeText}) => {
   return (
     <View style={styles.textInputContainer}>
       <TextInput
         style={styles.textInput}
         placeholder={placeholder}
         placeholderTextColor="rgba(255, 255, 255, 0.6)"
+        value={value}
+        onChangeText={onChangeText}
       />
     </View>
   );
@@ -18,21 +21,35 @@ const GlassmorphismTextInput = ({ placeholder }) => {
 
 
 const Todo = () => {
-  const [status, setStatus] =useState('Pending');
-  const [taskBtnText, setTaskBtnText] = useState('Start Task');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+   const [todos, setTodos] = useState([]);
+   const [todoText, setTodoText] = useState("");
 
-  const handleButtonPress = () =>{ 
-      if (status == 'Pending') {
-          setStatus('In-Progress');
-          setTaskBtnText("Done With Task");
-
-      } else if  (status == "In-Progress") {
-            setStatus("Completed");
-            setTaskBtnText("Great Work - Welldone");
-            setIsButtonDisabled(true);
-      }
+  const addTodo = () => {
+      if(todoText && todoText.trim() !==''){
+          const  newTodo = {id: Date.now(), text: todoText, status: 'Pending'};
+          setTodos([...todos, newTodo]);
+          setTodoText('');
+      } 
   }
+
+  const deleteTodo = (todoId) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== todoId);
+    setTodos(updatedTodos);
+  }
+  
+  const editTodo = (todoId, editedText) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === todoId) {
+        return { ...todo, text: editedText };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
+  
+  const renderTodo = ({ item }) => (
+    <TodoCard todo={item} deleteTodo={deleteTodo} editTodo={editTodo} />
+  );
 
 
   const currentTime = new Date();
@@ -68,11 +85,14 @@ const Todo = () => {
       {/* TEXT INPUT */}
       <GlassmorphismTextInput 
       placeholder="Enter your task" 
-
+      value={todoText}
+      onChangeText={setTodoText}
       />
 
       {/* TASK BUTTON */}
-        <TouchableOpacity style={styles.taskButton}>
+        <TouchableOpacity style={styles.taskButton}
+            onPress={addTodo}
+        >
             <LinearGradient colors={['#256afe', '#8124d7']} style={styles.gradient}>
               <Ionicons name="add" size={20} color="white" />
               <Text style={styles.buttonText}>Add Task</Text>
@@ -84,48 +104,10 @@ const Todo = () => {
 
         <View style={styles.taskHeader}>
               <Text style={styles.taskHeaderText}>Tasks</Text>
-
-              <View style={styles.taskBox}>
-                        <View style={styles.statusHeader}>
-                                  <Text style={styles.taskText}>Complete React Native For SkillsForge </Text>
-                                      <TouchableOpacity style={styles.actionMenu}>
-                                              <Ionicons name="md-ellipsis-horizontal-sharp" size={20} color="white" />
-                                      </TouchableOpacity>
-                          </View>
-                        <View style={styles.taskStatusBox}>
-                                  <View style={styles.statusHeader}>
-                                       <Text style={styles.statusText}>Status </Text>
-                                        <Text style={[styles.btnText, 
-                                            status == 'In-Progress'
-                                            ? {color: "#FF8C00"}
-                                            : status == 'Completed'
-                                            ?{color: "#03C03C", fontFamily:"RalewayBold"}
-                                            :{color: "white"}
-                                        ]}>
-                                        {status}
-                                        </Text>
-                                  </View>
-                                  <View style={styles.statusButtonContainer}>
-                                           <TouchableOpacity style={[styles.statusButton,  
-                                            status == 'In-Progress'
-                                            ? {backgroundColor: "#FF8C00"}
-                                            : status  == 'Completed'
-                                            ? {backgroundColor: "#03C03C"}
-                                            : {backgroundColor: "#256afe"}
-                                           ]}
-                                                  onPress={handleButtonPress}
-                                                  disabled={isButtonDisabled}
-                                           >
-                                                  <Text style={styles.btnText}>{taskBtnText}</Text>
-                                          </TouchableOpacity>
-                                    
-                                  </View>
-                        </View>
-              </View>
-
-
               <FlatList 
-
+                    data={todos}
+                   renderItem={renderTodo}
+                  keyExtractor={(item) => item.id.toString()}
               />
         </View>
 
@@ -207,58 +189,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontFamily: 'RalewayBold',
-  },
-
-  taskBox:{
-    marginTop: 15,
-    borderRadius: 10,
-    padding: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.18)',
-    shadowColor: 'rgba(0, 0, 0, 0.2)',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-  },
-
-  taskText:{
-    fontFamily: "RalewayMedium",
-    color: "white",
-    width: "90%"
-  },
-
-  statusText:{
-    fontFamily: "RalewayBold",
-    color: "white",
-  },
-
-  taskStatusBox:{
-    marginTop: 15,
-  },
-
-  statusHeader:{
-        flexDirection: "row",
-        justifyContent: "space-between"
-  },
-
-  statusButtonContainer:{
-    marginTop: 15,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    // borderWidth: 1,
-    // borderColor: "white",
-  },
-
-  statusButton:{
-      paddingHorizontal:10,
-      textAlign: "center",
-      padding: 10,
-  },
-
-  btnText:{
-    fontFamily: "RalewayMedium",
-    textAlign:"center",
-    color: "white"
   },
 
 });
