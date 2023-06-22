@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     textAlign: "center",
     padding: 10,
+    borderRadius: 10
   },
   btnText: {
     fontFamily: "RalewayMedium",

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Image, TextInput, FlatList } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Image, TextInput, FlatList, SafeAreaView} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -36,7 +36,7 @@ const Todo = () => {
     const updatedTodos = todos.filter((todo) => todo.id !== todoId);
     setTodos(updatedTodos);
   }
-  
+
   const editTodo = (todoId, editedText) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === todoId) {
@@ -100,17 +100,17 @@ const Todo = () => {
           </TouchableOpacity>
 
 
-        {/* List of Tasks */}
-
-        <View style={styles.taskHeader}>
-              <Text style={styles.taskHeaderText}>Tasks</Text>
-              <FlatList 
-                    data={todos}
-                   renderItem={renderTodo}
-                  keyExtractor={(item) => item.id.toString()}
-              />
-        </View>
-
+  {/* List of Tasks */}
+  <View style={styles.taskHeader}>
+        <Text style={styles.taskHeaderText}>Tasks</Text>
+        <SafeAreaView style={styles.taskListContainer}>
+          <FlatList
+            data={todos}
+            renderItem={renderTodo}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </SafeAreaView>
+      </View>
     </LinearGradient>
   );
 };
@@ -180,15 +180,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'RalewayMedium',
   },
-
-  taskHeader:{
-    paddingTop: 20, 
+  
+  taskHeader: {
+    paddingTop: 20,
+    flex: 1,
   },
 
-  taskHeaderText:{
+  taskHeaderText: {
     color: 'white',
     fontSize: 16,
     fontFamily: 'RalewayBold',
+  },
+
+  taskListContainer: {
+    flex: 1,
   },
 
 });
