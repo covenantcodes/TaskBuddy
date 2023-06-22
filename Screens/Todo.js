@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Image, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Image, TextInput, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -18,8 +18,22 @@ const GlassmorphismTextInput = ({ placeholder }) => {
 
 
 const Todo = () => {
-  
-  const [status, setStatus] =useState([]);
+  const [status, setStatus] =useState('Pending');
+  const [taskBtnText, setTaskBtnText] = useState('Start Task');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const handleButtonPress = () =>{ 
+      if (status == 'Pending') {
+          setStatus('In-Progress');
+          setTaskBtnText("Done With Task");
+
+      } else if  (status == "In-Progress") {
+            setStatus("Completed");
+            setTaskBtnText("Great Work - Welldone");
+            setIsButtonDisabled(true);
+      }
+  }
+
 
   const currentTime = new Date();
   const hours = currentTime.getHours();
@@ -75,22 +89,44 @@ const Todo = () => {
                         <View style={styles.statusHeader}>
                                   <Text style={styles.taskText}>Complete React Native For SkillsForge </Text>
                                       <TouchableOpacity style={styles.actionMenu}>
-                                                        <Ionicons name="md-ellipsis-horizontal-sharp" size={20} color="white" />
-                                                  </TouchableOpacity>
+                                              <Ionicons name="md-ellipsis-horizontal-sharp" size={20} color="white" />
+                                      </TouchableOpacity>
                           </View>
                         <View style={styles.taskStatusBox}>
                                   <View style={styles.statusHeader}>
                                        <Text style={styles.statusText}>Status </Text>
-                                        <Text style={styles.progressText}>Pending</Text>
+                                        <Text style={[styles.btnText, 
+                                            status == 'In-Progress'
+                                            ? {color: "#FF8C00"}
+                                            : status == 'Completed'
+                                            ?{color: "#03C03C", fontFamily:"RalewayBold"}
+                                            :{color: "white"}
+                                        ]}>
+                                        {status}
+                                        </Text>
                                   </View>
                                   <View style={styles.statusButtonContainer}>
-                                           <TouchableOpacity style={styles.statusButton}>
-                                                  <Text style={styles.progressText}>Start Task</Text>
+                                           <TouchableOpacity style={[styles.statusButton,  
+                                            status == 'In-Progress'
+                                            ? {backgroundColor: "#FF8C00"}
+                                            : status  == 'Completed'
+                                            ? {backgroundColor: "#03C03C"}
+                                            : {backgroundColor: "#256afe"}
+                                           ]}
+                                                  onPress={handleButtonPress}
+                                                  disabled={isButtonDisabled}
+                                           >
+                                                  <Text style={styles.btnText}>{taskBtnText}</Text>
                                           </TouchableOpacity>
                                     
                                   </View>
                         </View>
               </View>
+
+
+              <FlatList 
+
+              />
         </View>
 
     </LinearGradient>
@@ -106,8 +142,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // borderColor: 'white',
-    // borderWidth: 2,
   },
   greetingsText: {
     fontSize: 20,
@@ -219,14 +253,14 @@ const styles = StyleSheet.create({
       paddingHorizontal:10,
       textAlign: "center",
       padding: 10,
-      backgroundColor: "#256afe"
   },
 
-  progressText:{
+  btnText:{
     fontFamily: "RalewayMedium",
-    color: "white",
     textAlign:"center",
+    color: "white"
   },
+
 });
 
 export default Todo;
