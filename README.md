@@ -72,9 +72,19 @@ Please adhere to this project's `code of conduct`.
 
 ![Logo](./assets/icon.png)
 
+<table>
+  <tr>
+    <td><img src="assets/Screenshot_2023-06-22-21-16-39-893_host.exp.exponent.jpg" width=210 height=500></td>
+    <td><img src="assets/Screenshot_2023-06-22-21-19-57-089_host.exp.exponent.jpg" width=210 height=500></td>
+    <td><img src="assets/Screenshot_2023-06-22-21-20-11-011_host.exp.exponent.jpg" width=210 height=480></td>
+  </tr>
+ </table>
+
+ ## Downloads
+
+You can install a built apk version of this project [here](https://expo.dev/accounts/potash/projects/To-Do-App/builds/2e309f6e-3cf8-4d16-a7bb-6e5e485a2a49)
 
 ## License
-
 This project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) License
 
 
