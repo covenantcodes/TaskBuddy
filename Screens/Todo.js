@@ -1,12 +1,45 @@
-import React, {useState} from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Image, TextInput, FlatList, SafeAreaView} from 'react-native';
+import React, {useState, useCallback, useMemo, useRef} from 'react';
+import { 
+  StyleSheet, 
+  View, 
+  Text, 
+  TouchableOpacity, 
+  StatusBar, 
+  Image, 
+  TextInput, 
+  FlatList, 
+  SafeAreaView
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons,FontAwesome } from '@expo/vector-icons';
+import { 
+  Ionicons,
+  FontAwesome 
+    } from '@expo/vector-icons';
 import TodoCard from './TodoCard';
 import GlassmorphismTextInput from '../Components/GlassmorphismTextInput';
 import Fab from '../Components/Fab';
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
 
 const Todo = () => {
+
+  // ref
+  const bottomSheetModalRef = useRef(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
+
+  // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index) => {
+    console.log('handleSheetChanges', index);
+  }, []);
+
+
    const [todos, setTodos] = useState([]);
    const [todoText, setTodoText] = useState("");
 
@@ -76,23 +109,6 @@ const Todo = () => {
           </TouchableOpacity>
       </View>
 
-      {/* TEXT INPUT */}
-      <GlassmorphismTextInput 
-      placeholder="Enter your task" 
-      value={todoText}
-      onChangeText={setTodoText}
-      />
-
-      {/* TASK BUTTON */}
-        <TouchableOpacity style={styles.taskButton}
-          onPress={addTodo}>
-            <LinearGradient colors={['#256afe', '#8124d7']} style={styles.gradient}>
-              <Ionicons name="add" size={20} color="white" />
-              <Text style={styles.buttonText}>Add Task</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-
-
   {/* List of Tasks */}
   <View style={styles.taskHeader}>
         <Text style={styles.taskHeaderText}>Tasks</Text>
@@ -105,8 +121,40 @@ const Todo = () => {
         </SafeAreaView>
       </View>
       <View style={styles.fabBox}>
-          <Fab/>
+          <Fab
+             onPress={handlePresentModalPress}
+          />
       </View>
+
+      {/* BOTTOMSHEET */}
+      <BottomSheetModalProvider>
+      <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+          backgroundStyle={styles.bottomSheetBackground} 
+          >         
+            <View style={styles.contentContainer}>
+                   {/* TEXT INPUT */}
+                   <GlassmorphismTextInput 
+                  placeholder="Enter your task" 
+                  value={todoText}
+                  onChangeText={setTodoText}
+                  />
+
+                  {/* TASK BUTTON */}
+              <TouchableOpacity style={styles.taskButton}
+                  onPress={addTodo}>
+                  <LinearGradient colors={['#256afe', '#8124d7']} style={styles.gradient}>
+                      <Ionicons name="add" size={20} color="white" />
+                       <Text style={styles.buttonText}>Add Task</Text>
+                  </LinearGradient>
+                  </TouchableOpacity>
+              </View>
+      </BottomSheetModal>
+    </BottomSheetModalProvider>
+
     </LinearGradient>
 
   );
@@ -194,8 +242,17 @@ const styles = StyleSheet.create({
 
   fabBox:{
     alignItems: 'center'
-  }
+  },
 
+  bottomSheetBackground: {
+    backgroundColor: '#3d439b'
+  },
+
+  contentContainer:{
+    paddingHorizontal: 20
+  }
 });
+
+
 
 export default Todo;

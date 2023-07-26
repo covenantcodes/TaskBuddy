@@ -1,9 +1,12 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons'
 
-const Fab = () =>{
+const Fab = ({onPress}) =>{
     return (
-        <TouchableOpacity style={styles.fabContainer}>
+        <TouchableOpacity 
+        style={styles.fabContainer}
+        onPress={onPress}
+        >
             <MaterialCommunityIcons
                 name="plus"
                 size={34}
