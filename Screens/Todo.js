@@ -1,24 +1,10 @@
 import React, {useState} from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Image, TextInput, FlatList, SafeAreaView} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons,FontAwesome } from '@expo/vector-icons';
 import TodoCard from './TodoCard';
-
-const GlassmorphismTextInput = ({ placeholder, value, onChangeText}) => {
-  return (
-    <View style={styles.textInputContainer}>
-      <TextInput
-        style={styles.textInput}
-        placeholder={placeholder}
-        placeholderTextColor="rgba(255, 255, 255, 0.6)"
-        value={value}
-        onChangeText={onChangeText}
-      />
-    </View>
-  );
-};
-
+import GlassmorphismTextInput from '../Components/GlassmorphismTextInput';
+import Fab from '../Components/Fab';
 
 const Todo = () => {
    const [todos, setTodos] = useState([]);
@@ -70,16 +56,24 @@ const Todo = () => {
 
       {/* HEADER */}
       <View style={styles.headerContainer}>
-        <View>
-          <Text style={styles.greetingsText}>Hii</Text>
-          <Text style={styles.timeText}>{greeting}</Text>
-        </View>
-        <View>
-          <Image
-            source={require('../assets/pic.png')}
-            style={styles.profileImage}
-          />
-        </View>
+          <View style={styles.profileImageContainer}>
+              <Image
+                source={require('../assets/pic.png')}
+                style={styles.profileImage}
+              />
+            </View>
+            <View style={styles.greetingsContainer}>
+              {/* <Text style={styles.greetingsText}>Hi, Covenant</Text> */}
+              <Text style={styles.timeText}>{greeting}</Text>
+            </View>
+
+          <TouchableOpacity style={styles.notificationContainer}>
+            <FontAwesome
+              name='bell-o'
+              size={20}
+              color="white"
+            />
+          </TouchableOpacity>
       </View>
 
       {/* TEXT INPUT */}
@@ -91,8 +85,7 @@ const Todo = () => {
 
       {/* TASK BUTTON */}
         <TouchableOpacity style={styles.taskButton}
-            onPress={addTodo}
-        >
+          onPress={addTodo}>
             <LinearGradient colors={['#256afe', '#8124d7']} style={styles.gradient}>
               <Ionicons name="add" size={20} color="white" />
               <Text style={styles.buttonText}>Add Task</Text>
@@ -111,7 +104,11 @@ const Todo = () => {
           />
         </SafeAreaView>
       </View>
+      <View style={styles.fabBox}>
+          <Fab/>
+      </View>
     </LinearGradient>
+
   );
 };
 
@@ -125,9 +122,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+
+  greetingsContainer:{
+    alignItems: "center",
+  },
+
   greetingsText: {
     fontSize: 20,
-    fontFamily: 'RalewayMedium',
+    fontFamily: 'RalewayLight',
     color: 'white',
   },
   timeText: {
@@ -135,9 +137,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'RalewayBold',
   },
+
+  notificationContainer:{
+    alignItems: "center",
+    justifyContent:"center",
+    padding: 10,
+    borderRadius: 50,
+    backgroundColor: "rgba(255, 255, 255, 0.18)",
+  },
+
   profileImage: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 25,
     marginLeft: 10,
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
@@ -145,22 +156,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 1,
     shadowRadius: 4,
-  },
-  textInputContainer: {
-    marginTop: 20,
-    borderRadius: 15,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    shadowColor: 'rgba(0, 0, 0, 0.2)',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-  },
-  textInput: {
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    color: 'white',
-    fontSize: 16,
-    fontFamily: 'RalewayMedium',
   },
 
   taskButton: {
@@ -194,7 +189,12 @@ const styles = StyleSheet.create({
 
   taskListContainer: {
     flex: 1,
+    paddingVertical: 20
   },
+
+  fabBox:{
+    alignItems: 'center'
+  }
 
 });
 

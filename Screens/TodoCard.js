@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { Foundation, FontAwesome, FontAwesome5, AntDesign, Octicons} from "@expo/vector-icons";
 
 const TodoCard = ({ todo, deleteTodo, editTodo }) => {
   const [status, setStatus] = useState(todo.status);
@@ -113,22 +110,26 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
           <View style={styles.popup}>
             {isEditing ? (
               <TouchableOpacity style={styles.popupItem} onPress={handleEdit}>
-                <Entypo name="check" size={18} color="white" />
+                 <Text style={styles.popupItemText}>Done</Text>
+                 <FontAwesome5 name="clipboard-check" size={18} color="white" />
               </TouchableOpacity>
             
               
             ) : (
               <TouchableOpacity style={styles.popupItem} onPress={toggleEdit}>
-                <Entypo name="pencil" size={18} color="white" />
+                <Text style={styles.popupItemText}>Edit</Text>
+                <Foundation name="clipboard-pencil" size={18} color="white" />
               </TouchableOpacity>
             )}
             <TouchableOpacity style={styles.popupItem} onPress={handleDelete}>
-              <FontAwesome5 name="trash" size={17} color="white" />
+              <Text style={styles.popupItemText}>Move to Trash</Text>
+              <Octicons name="trash" size={17} color="white" />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.popupItem}
               onPress={() => setIsPopupVisible(false)}
             >
+              <Text style={styles.popupItemText}>Close</Text>
               <FontAwesome name="close" size={18} color="white" />
             </TouchableOpacity>
           </View>
@@ -198,17 +199,24 @@ const styles = StyleSheet.create({
   popup: {
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: "row",
     backgroundColor: "#1B1B1B",
-    padding: 20,
+    padding: 10,
     borderRadius: 10,
-    width: "35%",
+    width: "55%",
   },
   popupItem: {
+    flexDirection: "row",
     paddingVertical: 10,
     paddingHorizontal: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "lightgray",
+    borderColor: "lightgray",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+
+  popupItemText:{
+    paddingRight: 10,
+    color: "white",
+    fontFamily: "RalewaySemiBold"
   },
 
   editInput: {

@@ -1,9 +1,8 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import TodoApp from './Screens/TodoApp';
 import Todo from './Screens/Todo';
 import { useFonts } from "expo-font";
-
+import Fab from './Components/Fab'
 
 const App = () => {
       // FONTS
