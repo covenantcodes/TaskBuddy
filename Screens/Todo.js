@@ -8,12 +8,13 @@ import {
   Image, 
   TextInput, 
   FlatList, 
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { 
   Ionicons,
-  FontAwesome 
+  FontAwesome,
+  MaterialCommunityIcons
     } from '@expo/vector-icons';
 import TodoCard from './TodoCard';
 import GlassmorphismTextInput from '../Components/GlassmorphismTextInput';
@@ -35,6 +36,11 @@ const Todo = () => {
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
+
+  const handleDismissModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
+
   const handleSheetChanges = useCallback((index) => {
     console.log('handleSheetChanges', index);
   }, []);
@@ -109,6 +115,22 @@ const Todo = () => {
           </TouchableOpacity>
       </View>
 
+      {/* DAILY QUOTES */}
+      <View style={styles}>
+
+      </View>
+      <Text>
+          Ldnjkdfjadhjdf
+          dfhadfjkdakfjad
+          dafndjakfnkjdaf
+          dafbadfbdaf
+          'dafihukaf
+          lifhuiaf
+          fibudafn
+
+      </Text>
+
+
   {/* List of Tasks */}
   <View style={styles.taskHeader}>
         <Text style={styles.taskHeaderText}>Tasks</Text>
@@ -134,8 +156,17 @@ const Todo = () => {
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           backgroundStyle={styles.bottomSheetBackground} 
+          handleIndicatorStyle={bottomSheetHandleStyle}
           >         
             <View style={styles.contentContainer}>
+                  <View style={styles.closeModal}>
+                      <MaterialCommunityIcons
+                        name="close-circle-outline"
+                        size={35}
+                        color="white"
+                        onPress={handleDismissModalPress}
+                      />
+                  </View>
                    {/* TEXT INPUT */}
                    <GlassmorphismTextInput 
                   placeholder="Enter your task" 
@@ -226,12 +257,13 @@ const styles = StyleSheet.create({
   
   taskHeader: {
     paddingTop: 20,
+    paddingHorizontal: 10,
     flex: 1,
   },
 
   taskHeaderText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: 'RalewayBold',
   },
 
@@ -250,9 +282,16 @@ const styles = StyleSheet.create({
 
   contentContainer:{
     paddingHorizontal: 20
-  }
+  },
+
+  closeModal:{
+    paddingHorizontal: 10,
+    alignItems: 'center',
+  },
 });
 
-
+const bottomSheetHandleStyle = {
+  backgroundColor:'#3d439b'
+}
 
 export default Todo;
