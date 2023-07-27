@@ -1,4 +1,10 @@
-import React, {useState, useCallback, useMemo, useRef} from 'react';
+import React, {
+  useState, 
+  useCallback, 
+  useMemo, 
+  useRef,
+  useEffect
+} from 'react';
 import { 
   StyleSheet, 
   View, 
@@ -23,9 +29,12 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
+import axios from 'axios';
+import QuoteDisplay from '../Components/QuoteDisplay.js';
+
 
 const Todo = () => {
-
+  
   // ref
   const bottomSheetModalRef = useRef(null);
 
@@ -116,20 +125,7 @@ const Todo = () => {
       </View>
 
       {/* DAILY QUOTES */}
-      <View style={styles}>
-
-      </View>
-      <Text>
-          Ldnjkdfjadhjdf
-          dfhadfjkdakfjad
-          dafndjakfnkjdaf
-          dafbadfbdaf
-          'dafihukaf
-          lifhuiaf
-          fibudafn
-
-      </Text>
-
+      <QuoteDisplay/>
 
   {/* List of Tasks */}
   <View style={styles.taskHeader}>
