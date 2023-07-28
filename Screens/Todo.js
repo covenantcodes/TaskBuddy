@@ -125,7 +125,10 @@ const Todo = () => {
       </View>
 
       {/* DAILY QUOTES */}
-      <QuoteDisplay/>
+      <View style={styles.quoteContainer}>
+          <Text style={styles.quoteHeaderText}>Daily Quotes</Text>
+          <QuoteDisplay/>
+      </View>
 
   {/* List of Tasks */}
   <View style={styles.taskHeader}>
@@ -284,6 +287,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     alignItems: 'center',
   },
+
+  quoteContainer:{
+    paddingTop: 10
+  },
+
+  quoteHeaderText:{
+    paddingHorizontal: 10,
+    paddingVertical: 12,
+    fontFamily: "RalewaySemiBold",
+    color: 'white'
+  }
 });
 
 const bottomSheetHandleStyle = {

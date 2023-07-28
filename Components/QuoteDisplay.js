@@ -4,39 +4,44 @@ import axios from "axios";
 
 const QuoteDisplay = () => {
   const [quote, setQuote] = useState('');
+  const [author, setAuthor] =useState('');
+
+
+  // Quotes API Link: https://api-ninjas.com/api/quotes
 
   useEffect(() => {
-    // Define the options for the Axios request
-    const options = {
-      method: 'GET',
-      url: 'https://timshim-quotes-v1.p.rapidapi.com/quotes',
+    const category = 'happiness';
+    const apiKey = 'e/Dx6GYzHOgHRjtiI6aemw==QYvYY2j9bi92pkpg'; 
+
+    axios.get(`https://api.api-ninjas.com/v1/quotes?category=${category}`, {
       headers: {
-        'X-RapidAPI-Key': '46f3b80208msh6edd160caa5d069p1fb545jsnbeddc7987da5',
-        'X-RapidAPI-Host': 'timshim-quotes-v1.p.rapidapi.com'
-      }
-    };
-
-    // Make the Axios request to fetch the quote
-    const fetchQuote = async () => {
-      try {
-        const response = await axios.request(options);
-        // Assuming response.data is an array of quotes, get the first quote
-        const firstQuote = response.data[0];
-        if (firstQuote && firstQuote.text) {
-          setQuote(firstQuote.text);
+        'X-Api-Key': 'e/Dx6GYzHOgHRjtiI6aemw==QYvYY2j9bi92pkpg'
+      },
+    })
+    .then(response => {
+      if (response.status === 200) {
+        const quoteData = response.data;
+        if (quoteData && quoteData.length > 0) {
+          const randomIndex = Math.floor(Math.random() * quoteData.length);
+          const randomQuote = quoteData[randomIndex].quote;
+          setQuote(randomQuote);
         }
-      } catch (error) {
-        console.error(error);
+      } else {
+        console.error('Error:', response.status, response.data);
       }
-    };
-
-    fetchQuote(); // Call the function to fetch the quote when the component mounts
+    })
+    .catch(error => {
+      console.error('Request failed:', error);
+    });
   }, []);
 
   return (
     <View style={styles.quotesContainer}>
       <Text style={styles.quotesText}>
-        {quote}
+          {quote}
+      </Text>
+      <Text style={styles.quotesAuthor}>
+          {author}
       </Text>
     </View>
   );
@@ -47,13 +52,25 @@ const QuoteDisplay = () => {
 const styles = StyleSheet.create({
 
   quotesContainer: {
-    borderWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
     borderColor: "white",
-    paddingVertical : 20
+    paddingVertical : 10,
+    paddingHorizontal : 15
   },
 
   quotesText:{
     color: "white",
+    fontFamily: 'RalewayMediumItalic',
+    fontSize: 17,
+    textAlign: "left"
+  },
+
+  quotesAuthor:{
+    color: "white",
+    textAlign: "right",
+    fontFamily: 'RalewayMediumItalic',
+
   }
 })
 

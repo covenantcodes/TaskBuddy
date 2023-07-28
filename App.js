@@ -14,10 +14,13 @@ const App = () => {
         RalewayLight: require("./assets/fonts/Raleway-Light.ttf"),
         RalewayExtraLight: require("./assets/fonts/Raleway-ExtraLight.ttf"),
         RalewayMedium: require("./assets/fonts/Raleway-Medium.ttf"),
+        RalewayMediumItalic: require("./assets/fonts/Raleway-MediumItalic.ttf"),
         RalewayRegular: require("./assets/fonts/Raleway-Regular.ttf"),
         RalewaySemiBold: require("./assets/fonts/Raleway-SemiBold.ttf"),
+        RalewaySemiBoldItalic: require("./assets/fonts/Raleway-SemiBoldItalic.ttf"),
         RalewayBold: require("./assets/fonts/Raleway-Bold.ttf"),
         RalewayExtraBold: require("./assets/fonts/Raleway-ExtraBold.ttf"),
+        RalewayExtraBoldItalic: require("./assets/fonts/Raleway-ExtraBoldItalic.ttf"),
         RalewayHeavy: require("./assets/fonts/Raleway-Heavy.ttf"),
 
         // POPPINS
