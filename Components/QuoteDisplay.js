@@ -10,7 +10,7 @@ const QuoteDisplay = () => {
   // Quotes API Link: https://api-ninjas.com/api/quotes
 
   useEffect(() => {
-    const category = 'happiness';
+    const category = 'success';
     const apiKey = 'e/Dx6GYzHOgHRjtiI6aemw==QYvYY2j9bi92pkpg'; 
 
     axios.get(`https://api.api-ninjas.com/v1/quotes?category=${category}`, {
