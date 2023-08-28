@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -9,13 +9,40 @@ import {
 } from "react-native";
 import {
   Foundation,
-  FontAwesome,
+  Ionicons,
   MaterialIcons,
+  MaterialCommunityIcons,
   AntDesign,
   Octicons,
 } from "@expo/vector-icons";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet";
+
+import { LinearGradient } from "expo-linear-gradient";
+
+import GlassmorphismTextInput from "../Components/GlassmorphismTextInput";
 
 const TodoCard = ({ todo, deleteTodo, editTodo }) => {
+  const bottomSheetModalRef = useRef(null);
+
+  // variables
+  const snapPoints = useMemo(() => ["25%", "50%"], []);
+
+  // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleDismissModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
+
+  const handleSheetChanges = useCallback((index) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
   const [status, setStatus] = useState(todo.status);
   const [taskBtnText, setTaskBtnText] = useState("Start Task");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -52,14 +79,8 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
 
   return (
     <View>
-      <View style={styles.taskBox}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+      <TouchableOpacity style={styles.taskBox}>
+        <View style={styles.taskTextContainer}>
           {isEditing ? (
             <TextInput
               style={styles.editInput}
@@ -71,10 +92,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
           )}
 
           {isEditing ? (
-            <TouchableOpacity
-              style={styles.actionMenu}
-              onPress={handleEdit}
-            >
+            <TouchableOpacity style={styles.actionMenu} onPress={handleEdit}>
               <MaterialIcons name="done" size={24} color="white" />
             </TouchableOpacity>
           ) : (
@@ -120,7 +138,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
 
       {/* Pop-up Modal */}
       <Modal
@@ -130,7 +148,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
         onRequestClose={() => setIsPopupVisible(false)}
       >
         <View style={styles.modalContainer}>
-          <View style={styles.popup}>
+          <LinearGradient colors={["#032a80", "#3d0373"]} style={styles.popup}>
             {isEditing ? (
               <TouchableOpacity style={styles.popupItem} onPress={handleEdit}>
                 <Text style={styles.popupItemText}>Done</Text>
@@ -159,7 +177,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
               <Text style={styles.popupItemText}>Close</Text>
               {/* <FontAwesome name="close" size={18} color="white" /> */}
             </TouchableOpacity>
-          </View>
+          </LinearGradient>
         </View>
       </Modal>
     </View>
@@ -181,6 +199,14 @@ const styles = StyleSheet.create({
   editInput: {
     width: "85%",
   },
+
+  taskTextContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderColor: "white",
+  },
+
   taskText: {
     fontFamily: "RalewayMedium",
     color: "white",
@@ -226,7 +252,7 @@ const styles = StyleSheet.create({
   popup: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#1B1B1B",
+    backgroundColor: "white",
     padding: 10,
     borderRadius: 10,
     width: "55%",
