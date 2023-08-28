@@ -1,6 +1,19 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from "react-native";
-import { Foundation, FontAwesome, FontAwesome5, AntDesign, Octicons} from "@expo/vector-icons";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+} from "react-native";
+import {
+  Foundation,
+  FontAwesome,
+  FontAwesome5,
+  AntDesign,
+  Octicons,
+} from "@expo/vector-icons";
 
 const TodoCard = ({ todo, deleteTodo, editTodo }) => {
   const [status, setStatus] = useState(todo.status);
@@ -40,64 +53,64 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
   return (
     <View>
       <View style={styles.taskBox}>
-            <View style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-            }}>
-            {isEditing ? (
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          {isEditing ? (
             <TextInput
-                style={styles.editInput}
-                value={editedText}
-                onChangeText={setEditedText}
+              style={styles.editInput}
+              value={editedText}
+              onChangeText={setEditedText}
             />
-            ) : (
+          ) : (
             <Text style={styles.taskText}>{todo.text}</Text>
-            )}
-            <TouchableOpacity
+          )}
+          <TouchableOpacity
             style={styles.actionMenu}
             onPress={() => setIsPopupVisible(true)}
-            >
+          >
             <AntDesign name="ellipsis1" size={24} color="white" />
-            </TouchableOpacity>
-            </View>
-
-        <View style={styles.taskStatusBox}>
-        <View style={styles.statusHeader}>
-          <Text style={styles.statusText}>Status </Text>
-          <Text
-            style={[
-              styles.btnText,
-              status === "In-Progress"
-                ? { color: "#FF8C00" }
-                : status === "Completed"
-                ? { color: "#03C03C", fontFamily: "RalewayBold" }
-                : { color: "white" },
-            ]}
-          >
-            {status}
-          </Text>
-        </View>
-        <View style={styles.statusButtonContainer}>
-          <TouchableOpacity
-            style={[
-              styles.statusButton,
-              status === "In-Progress"
-                ? { backgroundColor: "#FF8C00" }
-                : status === "Completed"
-                ? { backgroundColor: "#03C03C" }
-                : { backgroundColor: "#256afe" },
-            ]}
-            onPress={handleButtonPress}
-            disabled={isButtonDisabled}
-          >
-            <Text style={styles.btnText}>{taskBtnText}</Text>
           </TouchableOpacity>
         </View>
-      </View>
-      </View>
 
-  
+        <View style={styles.taskStatusBox}>
+          <View style={styles.statusHeader}>
+            <Text style={styles.statusText}>Status </Text>
+            <Text
+              style={[
+                styles.btnText,
+                status === "In-Progress"
+                  ? { color: "#FF8C00" }
+                  : status === "Completed"
+                  ? { color: "#03C03C", fontFamily: "RalewayBold" }
+                  : { color: "white" },
+              ]}
+            >
+              {status}
+            </Text>
+          </View>
+          <View style={styles.statusButtonContainer}>
+            <TouchableOpacity
+              style={[
+                styles.statusButton,
+                status === "In-Progress"
+                  ? { backgroundColor: "#FF8C00" }
+                  : status === "Completed"
+                  ? { backgroundColor: "#03C03C" }
+                  : { backgroundColor: "#256afe" },
+              ]}
+              onPress={handleButtonPress}
+              disabled={isButtonDisabled}
+            >
+              <Text style={styles.btnText}>{taskBtnText}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
 
       {/* Pop-up Modal */}
       <Modal
@@ -110,27 +123,31 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
           <View style={styles.popup}>
             {isEditing ? (
               <TouchableOpacity style={styles.popupItem} onPress={handleEdit}>
-                 <Text style={styles.popupItemText}>Done</Text>
-                 <FontAwesome5 name="clipboard-check" size={18} color="white" />
+                <Text style={styles.popupItemText}>Done</Text>
+                {/* <FontAwesome5 name="clipboard-check" size={18} color="white" /> */}
               </TouchableOpacity>
-            
-              
             ) : (
-              <TouchableOpacity style={styles.popupItem} onPress={toggleEdit}>
+              <TouchableOpacity
+                style={styles.popupItem}
+                onPress={() => {
+                  toggleEdit();
+                  setIsPopupVisible(false);
+                }}
+              >
                 <Text style={styles.popupItemText}>Edit</Text>
-                <Foundation name="clipboard-pencil" size={18} color="white" />
+                {/* <Foundation name="clipboard-pencil" size={18} color="white" /> */}
               </TouchableOpacity>
             )}
             <TouchableOpacity style={styles.popupItem} onPress={handleDelete}>
               <Text style={styles.popupItemText}>Move to Trash</Text>
-              <Octicons name="trash" size={17} color="white" />
+              {/* <Octicons name="trash" size={17} color="white" /> */}
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.popupItem}
               onPress={() => setIsPopupVisible(false)}
             >
               <Text style={styles.popupItemText}>Close</Text>
-              <FontAwesome name="close" size={18} color="white" />
+              {/* <FontAwesome name="close" size={18} color="white" /> */}
             </TouchableOpacity>
           </View>
         </View>
@@ -151,8 +168,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
 
-  editInput:{
-        width: "85%"
+  editInput: {
+    width: "85%",
   },
   taskText: {
     fontFamily: "RalewayMedium",
@@ -183,7 +200,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     textAlign: "center",
     padding: 10,
-    borderRadius: 10
+    borderRadius: 15,
   },
   btnText: {
     fontFamily: "RalewayMedium",
@@ -210,13 +227,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderColor: "lightgray",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
 
-  popupItemText:{
+  popupItemText: {
     paddingRight: 10,
     color: "white",
-    fontFamily: "RalewaySemiBold"
+    fontFamily: "RalewaySemiBold",
   },
 
   editInput: {
