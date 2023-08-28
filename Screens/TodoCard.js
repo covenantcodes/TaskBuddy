@@ -7,9 +7,8 @@ import {
   Modal,
   TextInput,
 } from "react-native";
+
 import {
-  Foundation,
-  Ionicons,
   MaterialIcons,
   MaterialCommunityIcons,
   AntDesign,
@@ -28,6 +27,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
   const [editedText, setEditedText] = useState(todo.text);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
+  // FOR TASK STATUS
   const handleButtonPress = () => {
     if (status === "Pending") {
       setStatus("In-Progress");
@@ -39,20 +39,25 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
     }
   };
 
+// DELETE TASK
   const handleDelete = () => {
     deleteTodo(todo.id);
     setIsPopupVisible(false);
   };
 
+
+// EDIT TASK
   const handleEdit = () => {
     editTodo(todo.id, editedText);
     setIsEditing(false);
   };
 
+// CLOSE POPUP 
   const closemodal = () => {
     setIsPopupVisible(false);
   };
 
+  // EDIT TASK
   const toggleEdit = () => {
     setIsEditing(!isEditing);
     setEditedText(todo.text);
@@ -72,6 +77,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
             <Text style={styles.taskText}>{todo.text}</Text>
           )}
 
+            {/* LOGIC TO CHANGE ICONS ON EDIT */}
           {isEditing ? (
             <TouchableOpacity style={styles.actionMenu} onPress={handleEdit}>
               <MaterialIcons name="done" size={24} color="white" />
@@ -86,11 +92,13 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
           )}
         </View>
 
+
         <View style={styles.taskStatusBox}>
           <View style={styles.statusHeader}>
             <Text style={styles.statusText}>Status </Text>
             <Text
               style={[
+                // CHANGE STATUS TEXT COLOR
                 styles.btnText,
                 status === "In-Progress"
                   ? { color: "#FF8C00" }
@@ -106,6 +114,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
             <TouchableOpacity
               style={[
                 styles.statusButton,
+                // CHANGE STATUS BUTTON COLOR
                 status === "In-Progress"
                   ? { backgroundColor: "#FF8C00" }
                   : status === "Completed"
@@ -138,6 +147,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
                 onPress={closemodal}
               />
             </View>
+            {/* MODAL HEADER  */}
             <View style={styles.modalHeader}>
               <Text style={styles.todoModalText}>{todo.text}</Text>
               <View style={styles.actionIcons}>
@@ -165,10 +175,11 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.popupContent}>
+            {/* MODAL CONTENTS */}
+            <TouchableOpacity style={styles.popupContent}>
               <MaterialIcons name="timer" color="white" size={20} />
               <Text style={styles.popupContentText}>Set Reminder</Text>
-            </View>
+            </TouchableOpacity>
           </LinearGradient>
         </View>
       </Modal>
@@ -296,6 +307,10 @@ const styles = StyleSheet.create({
   },
 
   popupContent: {
+    // borderColor: "white",
+    // borderWidth: 1,
+    alignItems: "center",
+    marginTop: 20,
     paddingVertical: 10,
     flexDirection: "row",
   },
@@ -303,7 +318,7 @@ const styles = StyleSheet.create({
   popupContentText: {
     color: "white",
     fontFamily: "RalewaySemiBold",
-    marginLeft: 10,
+    marginLeft: 10, 
   },
 });
 
