@@ -164,7 +164,7 @@ const Todo = () => {
             />
 
             {/* TASK BUTTON */}
-            <TouchableOpacity style={styles.taskButton} onPress={addTodo}>
+            <TouchableOpacity style={styles.taskButton} onPress={[addTodo, handleDismissModalPress]}>
               <LinearGradient
                 colors={["#256afe", "#8124d7"]}
                 style={styles.gradient}

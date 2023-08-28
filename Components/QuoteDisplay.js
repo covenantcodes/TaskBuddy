@@ -10,7 +10,7 @@ const QuoteDisplay = () => {
   // Quotes API Link: https://api-ninjas.com/api/quotes
 
   useEffect(() => {
-    const category = 'success';
+    const category = 'inspirational';
     const apiKey = 'e/Dx6GYzHOgHRjtiI6aemw==QYvYY2j9bi92pkpg'; 
 
     axios.get(`https://api.api-ninjas.com/v1/quotes?category=${category}`, {
@@ -40,9 +40,6 @@ const QuoteDisplay = () => {
       <Text style={styles.quotesText}>
           {quote}
       </Text>
-      <Text style={styles.quotesAuthor}>
-          {author}
-      </Text>
     </View>
   );
   
@@ -66,6 +63,8 @@ const styles = StyleSheet.create({
   },
 
   quotesAuthor:{
+    borderColor: "white",
+    borderWidth: 1,
     color: "white",
     textAlign: "right",
     fontFamily: 'RalewayMediumItalic',
