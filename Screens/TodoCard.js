@@ -15,33 +15,12 @@ import {
   AntDesign,
   Octicons,
 } from "@expo/vector-icons";
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
 
 import { LinearGradient } from "expo-linear-gradient";
 
 import GlassmorphismTextInput from "../Components/GlassmorphismTextInput";
 
 const TodoCard = ({ todo, deleteTodo, editTodo }) => {
-  const bottomSheetModalRef = useRef(null);
-
-  // variables
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
-
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-
-  const handleDismissModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.dismiss();
-  }, []);
-
-  const handleSheetChanges = useCallback((index) => {
-    console.log("handleSheetChanges", index);
-  }, []);
 
   const [status, setStatus] = useState(todo.status);
   const [taskBtnText, setTaskBtnText] = useState("Start Task");
@@ -145,38 +124,14 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
         visible={isPopupVisible}
         animationType="fade"
         transparent
-        onRequestClose={() => setIsPopupVisible(false)}
+        onRequestClose={() => setIsPopupVisible(crossfalse)}
       >
         <View style={styles.modalContainer}>
           <LinearGradient colors={["#032a80", "#3d0373"]} style={styles.popup}>
-            {isEditing ? (
-              <TouchableOpacity style={styles.popupItem} onPress={handleEdit}>
-                <Text style={styles.popupItemText}>Done</Text>
-                {/* <FontAwesome5 name="clipboard-check" size={18} color="white" /> */}
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={styles.popupItem}
-                onPress={() => {
-                  toggleEdit();
-                  setIsPopupVisible(false);
-                }}
-              >
-                <Text style={styles.popupItemText}>Edit</Text>
-                {/* <Foundation name="clipboard-pencil" size={18} color="white" /> */}
-              </TouchableOpacity>
-            )}
-            <TouchableOpacity style={styles.popupItem} onPress={handleDelete}>
-              <Text style={styles.popupItemText}>Move to Trash</Text>
-              {/* <Octicons name="trash" size={17} color="white" /> */}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.popupItem}
-              onPress={() => setIsPopupVisible(false)}
-            >
-              <Text style={styles.popupItemText}>Close</Text>
-              {/* <FontAwesome name="close" size={18} color="white" /> */}
-            </TouchableOpacity>
+            <View style={styles.closeContainer}>
+              <MaterialCommunityIcons name="close" color="white" size={20} />
+            </View>
+            <Text style={styles.todoModalText}>{todo.text}</Text>
           </LinearGradient>
         </View>
       </Modal>
@@ -250,12 +205,10 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   popup: {
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "white",
-    padding: 10,
+    padding: 15,
     borderRadius: 10,
-    width: "55%",
+    width: "90%",
   },
   popupItem: {
     flexDirection: "row",
@@ -280,6 +233,18 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     marginBottom: 10,
   },
+
+  todoModalText: {
+    color: "white",
+    fontSize: 18,
+    fontFamily: "RalewayBold",
+  },
+
+  closeContainer:{
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 10
+  }
 });
 
 export default TodoCard;
