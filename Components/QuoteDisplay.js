@@ -52,8 +52,8 @@ const QuoteDisplay = () => {
 const styles = StyleSheet.create({
 
   quotesContainer: {
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    // borderLeftWidth: 1,
+    // borderRightWidth: 1,
     borderColor: "white",
     paddingVertical : 10,
     paddingHorizontal : 15
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   quotesText:{
     color: "white",
     fontFamily: 'RalewayMediumItalic',
-    fontSize: 17,
+    fontSize: 14,
     textAlign: "left"
   },
 

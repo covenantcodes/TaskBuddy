@@ -109,12 +109,11 @@ const Todo = () => {
                 source={require('../assets/pic.png')}
                 style={styles.profileImage}
               />
-            </View>
-            <View style={styles.greetingsContainer}>
+              <View style={styles.greetingsContainer}>
               {/* <Text style={styles.greetingsText}>Hi, Covenant</Text> */}
-              <Text style={styles.timeText}>{greeting}</Text>
-            </View>
-
+                 <Text style={styles.timeText}>{greeting}</Text>
+              </View>
+          </View>
           <TouchableOpacity style={styles.notificationContainer}>
             <FontAwesome
               name='bell-o'
@@ -201,18 +200,29 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 
+  profileImageContainer:{
+    borderWidth:1,
+    flexDirection:"row",
+    alignItems: "center"
+  },
+
   greetingsContainer:{
     alignItems: "center",
   },
 
-  greetingsText: {
-    fontSize: 20,
-    fontFamily: 'RalewayLight',
-    color: 'white',
-  },
+  // greetingsText: {
+  //   borderWidth: 1,
+  //   borderColor: "white",
+  //   marginLeft: 10,
+  //   fontSize: 18,
+  //   fontFamily: 'RalewayLight',
+  //   color: 'white',
+  // },
+
   timeText: {
+    marginLeft: 10,
     color: 'white',
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'RalewayBold',
   },
 
