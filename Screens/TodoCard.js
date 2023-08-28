@@ -10,7 +10,7 @@ import {
 import {
   Foundation,
   FontAwesome,
-  FontAwesome5,
+  MaterialIcons,
   AntDesign,
   Octicons,
 } from "@expo/vector-icons";
@@ -69,12 +69,22 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
           ) : (
             <Text style={styles.taskText}>{todo.text}</Text>
           )}
-          <TouchableOpacity
-            style={styles.actionMenu}
-            onPress={() => setIsPopupVisible(true)}
-          >
-            <AntDesign name="ellipsis1" size={24} color="white" />
-          </TouchableOpacity>
+
+          {isEditing ? (
+            <TouchableOpacity
+              style={styles.actionMenu}
+              onPress={handleEdit}
+            >
+              <MaterialIcons name="done" size={24} color="white" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.actionMenu}
+              onPress={() => setIsPopupVisible(true)}
+            >
+              <AntDesign name="ellipsis1" size={24} color="white" />
+            </TouchableOpacity>
+          )}
         </View>
 
         <View style={styles.taskStatusBox}>
