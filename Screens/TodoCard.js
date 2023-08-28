@@ -21,7 +21,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import GlassmorphismTextInput from "../Components/GlassmorphismTextInput";
 
 const TodoCard = ({ todo, deleteTodo, editTodo }) => {
-
   const [status, setStatus] = useState(todo.status);
   const [taskBtnText, setTaskBtnText] = useState("Start Task");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -48,7 +47,10 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
   const handleEdit = () => {
     editTodo(todo.id, editedText);
     setIsEditing(false);
-    setIsPopupVisible(false);
+  };
+
+  const closemodal = () =>{
+    setIsPopupVisible(false)
   };
 
   const toggleEdit = () => {
@@ -129,9 +131,37 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
         <View style={styles.modalContainer}>
           <LinearGradient colors={["#032a80", "#3d0373"]} style={styles.popup}>
             <View style={styles.closeContainer}>
-              <MaterialCommunityIcons name="close" color="white" size={20} />
+              <MaterialCommunityIcons
+                name="close"
+                color="white"
+                size={20}
+                onPress={closemodal}
+              />
             </View>
-            <Text style={styles.todoModalText}>{todo.text}</Text>
+            <View style={styles.modalHeader}>
+              <Text style={styles.todoModalText}>{todo.text}</Text>
+              <View style={styles.actionIcons}>
+                <TouchableOpacity>
+                  <MaterialIcons
+                    name="mode-edit"
+                    color="white"
+                    size={19}
+                    style={styles.actionIcon}
+                    onPress={handleEdit}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <MaterialIcons
+                    name="delete"
+                    color="white"
+                    size={19}
+                    style={styles.actionIcon}
+                    onPress={handleDelete}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
           </LinearGradient>
         </View>
       </Modal>
@@ -200,7 +230,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    justifyContent: "center",
+    paddingTop: 100,
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
@@ -240,11 +270,23 @@ const styles = StyleSheet.create({
     fontFamily: "RalewayBold",
   },
 
-  closeContainer:{
+  closeContainer: {
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 10
-  }
+    paddingVertical: 10,
+  },
+
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  actionIcons: {
+    flexDirection: "row",
+  },
+
+  actionIcon: {
+    marginHorizontal: 5,
+  },
 });
 
 export default TodoCard;
