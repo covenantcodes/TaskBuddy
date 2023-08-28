@@ -17,15 +17,19 @@ import {
 
 import { LinearGradient } from "expo-linear-gradient";
 
-import GlassmorphismTextInput from "../Components/GlassmorphismTextInput";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const TodoCard = ({ todo, deleteTodo, editTodo }) => {
+  // statusText
   const [status, setStatus] = useState(todo.status);
   const [taskBtnText, setTaskBtnText] = useState("Start Task");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(todo.text);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
 
   // FOR TASK STATUS
   const handleButtonPress = () => {
@@ -39,20 +43,19 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
     }
   };
 
-// DELETE TASK
+  // DELETE TASK
   const handleDelete = () => {
     deleteTodo(todo.id);
     setIsPopupVisible(false);
   };
 
-
-// EDIT TASK
+  // EDIT TASK
   const handleEdit = () => {
     editTodo(todo.id, editedText);
     setIsEditing(false);
   };
 
-// CLOSE POPUP 
+  // CLOSE POPUP
   const closemodal = () => {
     setIsPopupVisible(false);
   };
@@ -61,6 +64,29 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
   const toggleEdit = () => {
     setIsEditing(!isEditing);
     setEditedText(todo.text);
+  };
+
+  // FOR DATE PICKER
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  const showTimepicker = () => {
+    showMode("time");
   };
 
   return (
@@ -77,7 +103,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
             <Text style={styles.taskText}>{todo.text}</Text>
           )}
 
-            {/* LOGIC TO CHANGE ICONS ON EDIT */}
+          {/* LOGIC TO CHANGE ICONS ON EDIT */}
           {isEditing ? (
             <TouchableOpacity style={styles.actionMenu} onPress={handleEdit}>
               <MaterialIcons name="done" size={24} color="white" />
@@ -91,7 +117,6 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
             </TouchableOpacity>
           )}
         </View>
-
 
         <View style={styles.taskStatusBox}>
           <View style={styles.statusHeader}>
@@ -179,6 +204,9 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
             <TouchableOpacity style={styles.popupContent}>
               <MaterialIcons name="timer" color="white" size={20} />
               <Text style={styles.popupContentText}>Set Reminder</Text>
+              <Text style={styles.popupContentText}>
+                selected: {date.toLocaleString()}
+              </Text>
             </TouchableOpacity>
           </LinearGradient>
         </View>
@@ -318,7 +346,7 @@ const styles = StyleSheet.create({
   popupContentText: {
     color: "white",
     fontFamily: "RalewaySemiBold",
-    marginLeft: 10, 
+    marginLeft: 10,
   },
 });
 
