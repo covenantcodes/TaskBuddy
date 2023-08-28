@@ -60,7 +60,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
 
   return (
     <View>
-      <TouchableOpacity style={styles.taskBox}>
+      <View style={styles.taskBox}>
         <View style={styles.taskTextContainer}>
           {isEditing ? (
             <TextInput
@@ -119,7 +119,7 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
             </TouchableOpacity>
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
 
       {/* Pop-up Modal */}
       <Modal
@@ -147,7 +147,10 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
                     color="white"
                     size={19}
                     style={styles.actionIcon}
-                    onPress={handleEdit}
+                    onPress={() => {
+                  toggleEdit();
+                  setIsPopupVisible(false);
+                   }}
                   />
                 </TouchableOpacity>
 
