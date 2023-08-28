@@ -49,8 +49,8 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
     setIsEditing(false);
   };
 
-  const closemodal = () =>{
-    setIsPopupVisible(false)
+  const closemodal = () => {
+    setIsPopupVisible(false);
   };
 
   const toggleEdit = () => {
@@ -148,9 +148,9 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
                     size={19}
                     style={styles.actionIcon}
                     onPress={() => {
-                  toggleEdit();
-                  setIsPopupVisible(false);
-                   }}
+                      toggleEdit();
+                      setIsPopupVisible(false);
+                    }}
                   />
                 </TouchableOpacity>
 
@@ -164,6 +164,10 @@ const TodoCard = ({ todo, deleteTodo, editTodo }) => {
                   />
                 </TouchableOpacity>
               </View>
+            </View>
+            <View style={styles.popupContent}>
+              <MaterialIcons name="timer" color="white" size={20} />
+              <Text style={styles.popupContentText}>Set Reminder</Text>
             </View>
           </LinearGradient>
         </View>
@@ -289,6 +293,17 @@ const styles = StyleSheet.create({
 
   actionIcon: {
     marginHorizontal: 5,
+  },
+
+  popupContent: {
+    paddingVertical: 10,
+    flexDirection: "row",
+  },
+
+  popupContentText: {
+    color: "white",
+    fontFamily: "RalewaySemiBold",
+    marginLeft: 10,
   },
 });
 
