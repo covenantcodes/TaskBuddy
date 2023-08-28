@@ -1,45 +1,44 @@
 import React, {
-  useState, 
-  useCallback, 
-  useMemo, 
+  useState,
+  useCallback,
+  useMemo,
   useRef,
-  useEffect
-} from 'react';
-import { 
-  StyleSheet, 
-  View, 
-  Text, 
-  TouchableOpacity, 
-  StatusBar, 
-  Image, 
-  TextInput, 
-  FlatList, 
+  useEffect,
+} from "react";
+
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  StatusBar,
+  Image,
+  TextInput,
+  FlatList,
   SafeAreaView,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { 
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import {
   Ionicons,
   FontAwesome,
-  MaterialCommunityIcons
-    } from '@expo/vector-icons';
-import TodoCard from './TodoCard';
-import GlassmorphismTextInput from '../Components/GlassmorphismTextInput';
-import Fab from '../Components/Fab';
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
+import TodoCard from "./TodoCard";
+import GlassmorphismTextInput from "../Components/GlassmorphismTextInput";
+import Fab from "../Components/Fab";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
-} from '@gorhom/bottom-sheet';
-import axios from 'axios';
-import QuoteDisplay from '../Components/QuoteDisplay.js';
-
+} from "@gorhom/bottom-sheet";
+import axios from "axios";
+import QuoteDisplay from "../Components/QuoteDisplay.js";
 
 const Todo = () => {
-  
   // ref
   const bottomSheetModalRef = useRef(null);
 
   // variables
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const snapPoints = useMemo(() => ["25%", "50%"], []);
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
@@ -51,25 +50,24 @@ const Todo = () => {
   }, []);
 
   const handleSheetChanges = useCallback((index) => {
-    console.log('handleSheetChanges', index);
+    console.log("handleSheetChanges", index);
   }, []);
 
-
-   const [todos, setTodos] = useState([]);
-   const [todoText, setTodoText] = useState("");
+  const [todos, setTodos] = useState([]);
+  const [todoText, setTodoText] = useState("");
 
   const addTodo = () => {
-      if(todoText && todoText.trim() !==''){
-          const  newTodo = {id: Date.now(), text: todoText, status: 'Pending'};
-          setTodos([...todos, newTodo]);
-          setTodoText('');
-      } 
-  }
+    if (todoText && todoText.trim() !== "") {
+      const newTodo = { id: Date.now(), text: todoText, status: "Pending" };
+      setTodos([...todos, newTodo]);
+      setTodoText("");
+    }
+  };
 
   const deleteTodo = (todoId) => {
     const updatedTodos = todos.filter((todo) => todo.id !== todoId);
     setTodos(updatedTodos);
-  }
+  };
 
   const editTodo = (todoId, editedText) => {
     const updatedTodos = todos.map((todo) => {
@@ -80,57 +78,52 @@ const Todo = () => {
     });
     setTodos(updatedTodos);
   };
-  
+
   const renderTodo = ({ item }) => (
     <TodoCard todo={item} deleteTodo={deleteTodo} editTodo={editTodo} />
   );
-
 
   const currentTime = new Date();
   const hours = currentTime.getHours();
   let greeting;
 
   if (hours < 12) {
-    greeting = 'Good Morning';
+    greeting = "Good Morning";
   } else if (hours < 18) {
-    greeting = 'Good Afternoon';
+    greeting = "Good Afternoon";
   } else {
-    greeting = 'Good Evening';
+    greeting = "Good Evening";
   }
 
   return (
-    <LinearGradient colors={['#0d132a', '#44196c']} style={styles.container}>
+    <LinearGradient colors={["#0d132a", "#44196c"]} style={styles.container}>
       <StatusBar backgroundColor="#131d40" barStyle="light-content" />
 
       {/* HEADER */}
       <View style={styles.headerContainer}>
-          <View style={styles.profileImageContainer}>
-              <Image
-                source={require('../assets/pic.png')}
-                style={styles.profileImage}
-              />
-              <View style={styles.greetingsContainer}>
-              {/* <Text style={styles.greetingsText}>Hi, Covenant</Text> */}
-                 <Text style={styles.timeText}>{greeting}</Text>
-              </View>
+        <View style={styles.profileImageContainer}>
+          <Image
+            source={require("../assets/pic.png")}
+            style={styles.profileImage}
+          />
+          <View style={styles.greetingsContainer}>
+            {/* <Text style={styles.greetingsText}>Hi, Covenant</Text> */}
+            <Text style={styles.timeText}>{greeting}</Text>
           </View>
-          <TouchableOpacity style={styles.notificationContainer}>
-            <FontAwesome
-              name='bell-o'
-              size={20}
-              color="white"
-            />
-          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.notificationContainer}>
+          <FontAwesome name="bell-o" size={20} color="white" />
+        </TouchableOpacity>
       </View>
 
       {/* DAILY QUOTES */}
       <View style={styles.quoteContainer}>
-          <Text style={styles.quoteHeaderText}>Daily Quotes</Text>
-          <QuoteDisplay/>
+        <Text style={styles.quoteHeaderText}>Daily Quotes</Text>
+        <QuoteDisplay />
       </View>
 
-  {/* List of Tasks */}
-  <View style={styles.taskHeader}>
+      {/* List of Tasks */}
+      <View style={styles.taskHeader}>
         <Text style={styles.taskHeaderText}>Tasks</Text>
         <SafeAreaView style={styles.taskListContainer}>
           <FlatList
@@ -141,72 +134,69 @@ const Todo = () => {
         </SafeAreaView>
       </View>
       <View style={styles.fabBox}>
-          <Fab
-             onPress={handlePresentModalPress}
-          />
+        <Fab onPress={handlePresentModalPress} />
       </View>
 
       {/* BOTTOMSHEET */}
       <BottomSheetModalProvider>
-      <BottomSheetModal
+        <BottomSheetModal
           ref={bottomSheetModalRef}
           index={1}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
-          backgroundStyle={styles.bottomSheetBackground} 
+          backgroundStyle={styles.bottomSheetBackground}
           handleIndicatorStyle={bottomSheetHandleStyle}
-          >         
-            <View style={styles.contentContainer}>
-                  <View style={styles.closeModal}>
-                      <MaterialCommunityIcons
-                        name="close-circle-outline"
-                        size={35}
-                        color="white"
-                        onPress={handleDismissModalPress}
-                      />
-                  </View>
-                   {/* TEXT INPUT */}
-                   <GlassmorphismTextInput 
-                  placeholder="Enter your task" 
-                  value={todoText}
-                  onChangeText={setTodoText}
-                  />
+        >
+          <View style={styles.contentContainer}>
+            <View style={styles.closeModal}>
+              <MaterialCommunityIcons
+                name="close-circle-outline"
+                size={35}
+                color="white"
+                onPress={handleDismissModalPress}
+              />
+            </View>
+            {/* TEXT INPUT */}
+            <GlassmorphismTextInput
+              placeholder="Enter your task"
+              value={todoText}
+              onChangeText={setTodoText}
+            />
 
-                  {/* TASK BUTTON */}
-              <TouchableOpacity style={styles.taskButton}
-                  onPress={addTodo}>
-                  <LinearGradient colors={['#256afe', '#8124d7']} style={styles.gradient}>
-                      <Ionicons name="add" size={20} color="white" />
-                       <Text style={styles.buttonText}>Add Task</Text>
-                  </LinearGradient>
-                  </TouchableOpacity>
-              </View>
-      </BottomSheetModal>
-    </BottomSheetModalProvider>
-
+            {/* TASK BUTTON */}
+            <TouchableOpacity style={styles.taskButton} onPress={addTodo}>
+              <LinearGradient
+                colors={["#256afe", "#8124d7"]}
+                style={styles.gradient}
+              >
+                <Ionicons name="add" size={20} color="white" />
+                <Text style={styles.buttonText}>Add Task</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
     </LinearGradient>
-
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 7,
   },
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 
-  profileImageContainer:{
-    borderWidth:1,
-    flexDirection:"row",
-    alignItems: "center"
+  profileImageContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 
-  greetingsContainer:{
+  greetingsContainer: {
     alignItems: "center",
   },
 
@@ -221,14 +211,14 @@ const styles = StyleSheet.create({
 
   timeText: {
     marginLeft: 10,
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontFamily: 'RalewayBold',
+    fontFamily: "RalewayBold",
   },
 
-  notificationContainer:{
+  notificationContainer: {
     alignItems: "center",
-    justifyContent:"center",
+    justifyContent: "center",
     padding: 10,
     borderRadius: 50,
     backgroundColor: "rgba(255, 255, 255, 0.18)",
@@ -239,8 +229,8 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 25,
     marginLeft: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    shadowColor: "rgba(0, 0, 0, 0.2)",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 1,
     shadowRadius: 4,
@@ -248,70 +238,71 @@ const styles = StyleSheet.create({
 
   taskButton: {
     marginTop: 20,
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   gradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 8,
     paddingVertical: 10,
   },
   buttonText: {
     marginLeft: 8,
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontFamily: 'RalewayMedium',
+    fontFamily: "RalewayMedium",
   },
-  
+
   taskHeader: {
-    paddingTop: 20,
     paddingHorizontal: 10,
     flex: 1,
   },
 
   taskHeaderText: {
-    color: 'white',
+    color: "white",
     fontSize: 20,
-    fontFamily: 'RalewayBold',
+    fontFamily: "RalewayBold",
   },
 
   taskListContainer: {
     flex: 1,
-    paddingVertical: 20
+    paddingVertical: 20,
   },
 
-  fabBox:{
-    alignItems: 'center'
+  fabBox: {
+    alignItems: "center",
   },
 
   bottomSheetBackground: {
-    backgroundColor: '#3d439b'
+    backgroundColor: "#3d439b",
   },
 
-  contentContainer:{
-    paddingHorizontal: 20
+  contentContainer: {
+    paddingHorizontal: 20,
   },
 
-  closeModal:{
+  closeModal: {
     paddingHorizontal: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
 
-  quoteContainer:{
-    paddingTop: 10
+  quoteContainer: {
+    paddingTop: 5,
+    borderWidth: 1,
+    borderColor: "white",
   },
 
-  quoteHeaderText:{
+  quoteHeaderText: {
     paddingHorizontal: 10,
     paddingVertical: 12,
     fontFamily: "RalewaySemiBold",
-    color: 'white'
-  }
+    color: "white",
+  },
 });
 
 const bottomSheetHandleStyle = {
-  backgroundColor:'#3d439b'
-}
+  backgroundColor: "#3d439b",
+};
 
 export default Todo;
