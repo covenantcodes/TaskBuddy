@@ -9,7 +9,7 @@ const Fab = ({onPress}) =>{
         >
             <MaterialCommunityIcons
                 name="plus"
-                size={34}
+                size={20}
                 color="white"
             />
         </TouchableOpacity>
@@ -19,9 +19,9 @@ const Fab = ({onPress}) =>{
 const styles = StyleSheet.create ({
     fabContainer: {
        backgroundColor: '#256afe',
-       padding: 20,
-       width: 100,
-       height: 100,
+       padding: 10,
+       width: 80,
+       height: 80,
        borderRadius: 50,
        alignItems: "center",
        justifyContent: "center"

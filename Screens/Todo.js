@@ -164,7 +164,7 @@ const Todo = () => {
             />
 
             {/* TASK BUTTON */}
-            <TouchableOpacity style={styles.taskButton} onPress={[addTodo, handleDismissModalPress]}>
+            <TouchableOpacity style={styles.taskButton} onPress={addTodo}>
               <LinearGradient
                 colors={["#256afe", "#8124d7"]}
                 style={styles.gradient}
@@ -260,6 +260,7 @@ const styles = StyleSheet.create({
   },
 
   taskHeaderText: {
+    paddingTop: 15,
     color: "white",
     fontSize: 20,
     fontFamily: "RalewayBold",
@@ -288,14 +289,12 @@ const styles = StyleSheet.create({
   },
 
   quoteContainer: {
-    paddingTop: 5,
-    borderWidth: 1,
-    borderColor: "white",
+    paddingVertical: 10
   },
 
   quoteHeaderText: {
     paddingHorizontal: 10,
-    paddingVertical: 12,
+    paddingVertical: 5,
     fontFamily: "RalewaySemiBold",
     color: "white",
   },
